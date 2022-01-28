@@ -1,0 +1,48 @@
+<form [formGroup]="formPerson">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Numero de documento</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='name'>
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='name'>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Buscar Mascota</label>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex position-relative w-75">
+                <input type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='name'  (keyup)="searchByterm()"> 
+                <div *ngIf="searchProducts" class="tableheight-show position-absolute positionbottom bg-white p-1 w-100">
+                    <div class="list-group">
+                        <button type="button" class="list-group-item list-group-item-action">M1234 - Pancho - Perro</button>
+                        <button type="button" class="list-group-item list-group-item-action">M1244 - Tutu - Gato</button>
+                        <button type="button" class="list-group-item list-group-item-action">M3234 - Francisco - Mono</button>
+                        <button type="button" class="list-group-item list-group-item-action">M6734 - Nojodas - Gato</button>
+                        <button type="button" class="list-group-item list-group-item-action">M9434 - Florentino - Perro</button>
+                      </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn bg-success text-white">Agregar</button>
+            </div>
+        </div>
+    </div>
+    <!--<div class="mb-3">
+        <div *ngFor="let item of petsNumber ; index as i">
+            <label for="" class="form-label">Name Pet</label>
+            <input type="text" class="form-control" id="" [formControlName]="petsNumber[i].name">
+            <label for="" class="mt-2 form-label">type Pet</label>
+            <input type="text" class="form-control" id="" [formControlName]="petsNumber[i].type">
+            <hr class="my-4">
+        </div>
+    </div>-->
+    <!--<div class="mb-2 d-flex justify-content-between align-items-center">
+        <label for="exampleInputPassword1" class="form-label">Add new pet</label>
+        <button class="btn bg-success text-white" (click)="addNewPet()">+</button>
+    </div>-->
+    <!--<div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary" (click)="sendForm()" [disabled]="!formPerson.valid">{{ btnValue | titlecase }}</button>
+        <button type="button" [routerLink]="['/']" class="btn btn-danger">Cancel</button>
+    </div>-->
+</form>

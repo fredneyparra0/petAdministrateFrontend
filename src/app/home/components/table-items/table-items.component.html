@@ -1,0 +1,45 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Pets</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Tutu</td>
+        <td>
+            <button class="btn bg-warning text-white" [routerLink]="['/updateperson', '1']">Edit</button>
+        </td>
+        <td>
+            <button class="btn bg-danger text-white">Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Mark</td>
+        <td>Tutu</td>
+        <td>
+            <button class="btn bg-warning text-white" [routerLink]="['/updateperson', '2']">Edit</button>
+        </td>
+        <td>
+            <button class="btn bg-danger text-white">Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td>Mark</td>
+        <td>Tutu</td>
+        <td>
+            <button class="btn bg-warning text-white" [routerLink]="['/updateperson', '3']">Edit</button>
+        </td>
+        <td>
+            <button class="btn bg-danger text-white">Delete</button>
+        </td>
+    </tbody>
+  </table>
