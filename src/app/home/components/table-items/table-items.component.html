@@ -1,5 +1,5 @@
 <input #term type="text" placeholder="Buscar Persona..." (keyup)="findPersonByTerm()" class="form-control">
-<table *ngIf="persons.length;else empty" class="table text-centerdiv">
+<table *ngIf="persons?.length;else empty" class="table text-centerdiv">
   <thead>
     <tr>
       <th scope="col">Numero de documento</th>

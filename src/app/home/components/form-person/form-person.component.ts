@@ -19,7 +19,7 @@ export class FormPersonComponent implements OnInit {
   searchPets: boolean = false;
   resultsPetsFindByTerm: any[] = [];
   petsAgregate: any[] = [];
-  isErrorFromNumberDOcument: boolean = false;
+  isErrorFromNumberDocument: boolean = false;
   idPerson: string = '';
 
   formPerson = new FormGroup({
@@ -102,7 +102,7 @@ export class FormPersonComponent implements OnInit {
     const idPets = this.petsAgregate.map(pet => pet._id);
     this.personService.createNewPerson({ ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
       if (response.error) {
-        this.isErrorFromNumberDOcument = true;
+        this.isErrorFromNumberDocument = true;
       } else {
         this.router.navigate(['']);
       }

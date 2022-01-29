@@ -57,7 +57,7 @@
                 </tbody>
               </table>
           </div>
-          <div *ngIf="isErrorFromNumberDOcument" class="text-center">
+          <div *ngIf="isErrorFromNumberDocument" class="text-center">
             <strong class="text-danger">Error Numero de Documento Ya esta registrado</strong>
           </div>
           <button type="submit" class="btn btn-success w-100 mt-3" [disabled]="!formPerson.valid">{{ mode === 'create' ? 'Crear' : 'Actualizar'  }}</button>
