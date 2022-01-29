@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormPersonService } from '../../services/form-person.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-create-person',
@@ -10,7 +9,7 @@ export class CreatePersonComponent implements OnInit {
 
   showModal: boolean = false;
 
-  constructor(private formPersonService: FormPersonService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, PartialObserver } from 'rxjs';
-import { FormPersonService } from '../../services/form-person.service';
+import { PersonService } from '../../services/person.service';
+import { PetService } from '../../services/pet.service';
 
 @Component({
   selector: 'app-form-person',
@@ -28,7 +29,8 @@ export class FormPersonComponent implements OnInit {
   });
 
   constructor(
-    private formPersonService: FormPersonService,
+    private personService: PersonService,
+    private petService: PetService,
     private activateRouter: ActivatedRoute,
     private router: Router
   ) { }
@@ -43,7 +45,7 @@ export class FormPersonComponent implements OnInit {
   }
   
   findPerson (id: string) {
-    this.formPersonService.findPersonById(id).subscribe((person:any) => {
+    this.personService.findPersonById(id).subscribe((person:any) => {
       this.formPerson.patchValue(person.data);
       this.petsAgregate = person.data.pets;
     })
@@ -55,7 +57,7 @@ export class FormPersonComponent implements OnInit {
         this.searchPets = false;
       }else {
         this.searchPets = true;
-        this.formPersonService.filterByTerm(this.formPerson.value.term).subscribe((response:any) => {
+        this.petService.filterByTerm(this.formPerson.value.term).subscribe((response:any) => {
           this.resultsPetsFindByTerm = response.data;
         });
         
@@ -91,14 +93,14 @@ export class FormPersonComponent implements OnInit {
 
   private updatePerson() {
     const idPets = this.petsAgregate.map(pet => pet._id);
-    this.formPersonService.updatePerson(this.idPerson, { ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
+    this.personService.updatePerson(this.idPerson, { ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
       if(!response.error) this.router.navigate(['']);
     });
   }
 
   private createNewPerson() {
     const idPets = this.petsAgregate.map(pet => pet._id);
-    this.formPersonService.createNewPerson({ ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
+    this.personService.createNewPerson({ ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
       if (response.error) {
         this.isErrorFromNumberDOcument = true;
       } else {

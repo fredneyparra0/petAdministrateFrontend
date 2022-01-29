@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormPersonService } from '../../services/form-person.service';
+import { PetService } from '../../services/pet.service';
 
 @Component({
   selector: 'app-modal-pet',
@@ -16,18 +16,18 @@ export class ModalPetComponent implements OnInit {
     type: new FormControl('', [Validators.required])
   });
   
-  constructor( private formPersonService: FormPersonService  ) { }
+  constructor( 
+    private petService: PetService
+  ) { }
   
   ngOnInit(): void {
   }
   
   saveNewPet () {
-    this.formPersonService.createNewPet(this.formNewPet.value).subscribe((response:any) => {
+    this.petService.createNewPet(this.formNewPet.value).subscribe((response:any) => {
       this.closeModalEmitter.emit(false);
       this.formNewPet.reset();
     })
-
-
   }
 
   closeModal () {
