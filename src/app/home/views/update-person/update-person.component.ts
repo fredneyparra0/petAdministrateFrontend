@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpdatePersonComponent implements OnInit {
 
+  showModal: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggleModal ( event:boolean ) {
+    this.showModal = event;
   }
 
 }

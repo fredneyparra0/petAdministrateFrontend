@@ -7,7 +7,7 @@ import { UpdatePersonComponent } from './views/update-person/update-person.compo
 import { RouterModule } from '@angular/router';
 import { TableItemsComponent } from './components/table-items/table-items.component';
 import { FormPersonComponent } from './components/form-person/form-person.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalPetComponent } from './components/modal-pet/modal-pet.component';
 
 
@@ -25,7 +25,8 @@ import { ModalPetComponent } from './components/modal-pet/modal-pet.component';
     CommonModule,
     SharedModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     DashboardComponent

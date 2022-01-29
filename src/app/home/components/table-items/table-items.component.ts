@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormPersonService } from '../../services/form-person.service';
 
 @Component({
@@ -10,7 +11,10 @@ export class TableItemsComponent implements OnInit {
 
   persons: any[] = [];
 
-  constructor( private formPersonService: FormPersonService ) { }
+  constructor( 
+    private formPersonService: FormPersonService,
+    private router: Router 
+  ) { }
 
   ngOnInit(): void {
     this.loadComponent()
@@ -28,6 +32,10 @@ export class TableItemsComponent implements OnInit {
       const indexPerson = this.persons.findIndex(pet => pet._id === id);
       this.persons.splice(indexPerson, 1);
     });
+  }
+
+  editPerson (id: string) {
+    this.router.navigate(['/updateperson', id]);
   }
 
 }

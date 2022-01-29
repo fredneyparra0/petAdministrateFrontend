@@ -4,18 +4,25 @@
         <th scope="col">Numero de documento</th>
         <th scope="col">Nombre</th>
         <th scope="col">Mascotas</th>
-        <th scope="col">Eliminar</th>
+        <th scope="col">Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let person of persons">
-        <th scope="row">{{ person.numberDocument | number }}</th>
+        <th scope="row">{{ person.numberDocument }}</th>
         <td>{{ person.name | titlecase }}</td>
         <td>
-          <span *ngFor="let pet of person.pets"> | {{ pet.name }} | </span>
+          <span *ngFor="let pet of person.pets">
+            <div>{{ pet.name | titlecase }} - {{ pet.type | titlecase }}</div>
+          </span>
         </td>
         <td>
-            <button class="btn bg-danger text-white" (click)="deletePerson(person._id)">Delete</button>
+          <div class="mb-1">
+            <button type="button" class="btn btn-danger btn-sm w-75" (click)="deletePerson(person._id)">Eliminar</button>
+          </div>
+          <div class="mt-1">
+            <button type="button" class="btn btn-warning btn-sm w-75" (click)="editPerson(person._id)">Editar</button>
+          </div>
         </td>
       </tr>
     </tbody>

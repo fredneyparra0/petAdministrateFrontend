@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable, PartialObserver } from 'rxjs';
 import { FormPersonService } from '../../services/form-person.service';
-import { ModalPetComponent } from '../modal-pet/modal-pet.component';
 
 @Component({
   selector: 'app-form-person',
@@ -12,40 +13,53 @@ export class FormPersonComponent implements OnInit {
 
   @Output() showModalEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+  @Input() mode: 'create' | 'update' = 'create';
+
   searchPets: boolean = false;
-  pets: any[] = [];
+  resultsPetsFindByTerm: any[] = [];
   petsAgregate: any[] = [];
   isErrorFromNumberDOcument: boolean = false;
+  idPerson: string = '';
 
   formPerson = new FormGroup({
     numberDocument: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required])
+    name: new FormControl('', [Validators.required]),
+    term: new FormControl('')
   });
 
-  formSearchPet = new FormGroup({
-    term: new FormControl('', [Validators.required])
-  });
-
-  constructor( private formPersonService: FormPersonService ) { }
+  constructor(
+    private formPersonService: FormPersonService,
+    private activateRouter: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.activateRouter.params.subscribe((params:Params) => {
+      if (params.id) {
+        this.idPerson = params.id;
+        this.findPerson(params.id);
+      }
+    })
   }
-
-  sendForm () {
-    console.log(this.formPerson.controls);
-    console.log(this.formPerson.value)
-  }
-
   
+  findPerson (id: string) {
+    this.formPersonService.findPersonById(id).subscribe((person:any) => {
+      this.formPerson.patchValue(person.data);
+      this.petsAgregate = person.data.pets;
+    })
+  }
+
   searchByterm () {
-    if (this.formSearchPet.value.term.length <= 0) {
-      this.searchPets = false;
-    }else {
-      this.searchPets = true;
-      this.formPersonService.filterByTerm(this.formSearchPet.value.term).subscribe((response:any) => {
-        this.pets = response.data;
-      });
-      
+    if(this.formPerson.value.term.length != null) {
+      if (this.formPerson.value.term.length <= 0) {
+        this.searchPets = false;
+      }else {
+        this.searchPets = true;
+        this.formPersonService.filterByTerm(this.formPerson.value.term).subscribe((response:any) => {
+          this.resultsPetsFindByTerm = response.data;
+        });
+        
+      }
     }
   }
   
@@ -57,7 +71,7 @@ export class FormPersonComponent implements OnInit {
     const isPetOnTheList = this.petsAgregate.some(pet => pet._id === petAgregateReceived._id );
     if (!isPetOnTheList) {
       this.petsAgregate.push(petAgregateReceived);
-      this.formSearchPet.reset();
+      this.formPerson.controls.term.reset();
     }
   }
   
@@ -66,19 +80,30 @@ export class FormPersonComponent implements OnInit {
     this.petsAgregate.splice(indexPet, 1);
   }
 
-  createNewPerson () {
-    if (!this.formPerson.invalid) {
-      const idPets = this.petsAgregate.map(pet => pet._id);
-      this.formPersonService.createNewPerson({ ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
-        if (response.error) {
-          this.isErrorFromNumberDOcument = true;
-        } else {
-          this.isErrorFromNumberDOcument = false;
-          this.formPerson.reset();
-          this.petsAgregate = [];
-        }
-      });
+  submitPerson () {
+    if (this.mode === 'create') {
+      this.createNewPerson();
+    } else {
+      this.updatePerson();
     }
   }
 
+
+  private updatePerson() {
+    const idPets = this.petsAgregate.map(pet => pet._id);
+    this.formPersonService.updatePerson(this.idPerson, { ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
+      if(!response.error) this.router.navigate(['']);
+    });
+  }
+
+  private createNewPerson() {
+    const idPets = this.petsAgregate.map(pet => pet._id);
+    this.formPersonService.createNewPerson({ ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
+      if (response.error) {
+        this.isErrorFromNumberDOcument = true;
+      } else {
+        this.router.navigate(['']);
+      }
+    });
+  }
 }

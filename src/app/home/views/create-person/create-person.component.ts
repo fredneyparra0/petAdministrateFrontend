@@ -13,11 +13,6 @@ export class CreatePersonComponent implements OnInit {
   constructor(private formPersonService: FormPersonService) { }
 
   ngOnInit(): void {
-    this.loadComponents();
-  }
-  
-  loadComponents () {
-    //this.showModal = this.formPersonService.showModal;
   }
 
   toggleModal ( event:boolean ) {

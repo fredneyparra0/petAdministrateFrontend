@@ -22,9 +22,7 @@ export class ModalPetComponent implements OnInit {
   }
   
   saveNewPet () {
-    console.log(this.formNewPet.value);
     this.formPersonService.createNewPet(this.formNewPet.value).subscribe((response:any) => {
-      console.log(response);
       this.closeModalEmitter.emit(false);
       this.formNewPet.reset();
     })
