@@ -3,7 +3,8 @@ export const httpServicePerson = {
     getAll: '/person/getAll',
     getById: '/person/get/',
     update: '/person/update/',
-    delete: '/person/delete/'
+    delete: '/person/delete/',
+    filter: '/person/filter/'
 }
 
 export const httpServicePet = {

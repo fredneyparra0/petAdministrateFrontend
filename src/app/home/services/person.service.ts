@@ -30,12 +30,8 @@ export class PersonService {
     return this.http.delete(`${environment.apiUrl + httpServicePerson.delete + id}`);
   }
 
-  /*filterByTerm (term: string) {
-    return this.http.get(`${environment.apiUrl + httpServicePet.byTerm + term}`);
+  filterPersonByTerm (term: string) {
+    return this.http.get(`${environment.apiUrl + httpServicePerson.filter + term}`);
   }
-
-  createNewPet(data: any) {
-    return this.http.post(`${environment.apiUrl + httpServicePet.create}`, data);
-  }*/
 
 }

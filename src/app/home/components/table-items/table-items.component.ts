@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PersonService } from '../../services/person.service';
 
@@ -8,8 +9,14 @@ import { PersonService } from '../../services/person.service';
   styleUrls: ['./table-items.component.css']
 })
 export class TableItemsComponent implements OnInit {
+  
+  @ViewChild("term") term!: ElementRef;
 
   persons: any[] = [];
+
+  formFilterByName = new FormGroup({
+    term: new FormControl('')
+  }) 
 
   constructor( 
     private personService: PersonService,
@@ -18,7 +25,6 @@ export class TableItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadComponent()
-  
   }
 
   loadComponent () {
@@ -36,6 +42,16 @@ export class TableItemsComponent implements OnInit {
 
   editPerson (id: string) {
     this.router.navigate(['/updateperson', id]);
+  }
+
+  findPersonByTerm () {
+    if (this.term.nativeElement.value.length) {
+      this.personService.filterPersonByTerm(this.term.nativeElement.value).subscribe((response:any) => {
+        this.persons = response.data;
+      })
+    } else {
+      this.loadComponent()
+    }
   }
 
 }
