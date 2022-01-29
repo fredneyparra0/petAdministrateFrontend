@@ -6,3 +6,9 @@
     max-height: 200px;
     overflow-y: scroll;
 }
+
+.tableheight {
+    max-height: 400px;
+    height: 300px;
+    overflow-y: auto;
+}

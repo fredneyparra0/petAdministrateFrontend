@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-center align-items-center windowmodal">
+    <form [formGroup]="formNewPet" (submit)="saveNewPet()" class="d-flex flex-column justify-content-center w-50 p-5 bg-white rounded">
+        <h4 class="fs-2">Crear Mascota</h4>
+        <label for="exampleInputEmail1" class="form-label">Nombre</label>
+        <input type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="name"> 
+        <label for="exampleInputEmail1" class="form-label">Tipo</label>
+        <select class="form-control" formControlName="type">
+            <option value="null">Seleccionar...</option>
+            <option value="perro">Perro</option>
+            <option value="gato">gato</option>
+            <option value="loro">loro</option>
+            <option value="mono">mono</option>
+            <option value="pez">pez</option>
+            <option value="raton">raton</option>
+        </select>
+        <button type="submit" class="btn bg-success w-100 mt-3 text-white">Guardar</button>
+        <button class="btn bg-danger w-100 text-white mt-3" (click)="closeModal()">Cancelar</button>
+    </form>
+</div>

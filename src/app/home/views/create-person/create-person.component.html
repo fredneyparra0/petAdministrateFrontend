@@ -1,117 +1,12 @@
-<div class="container row pt-4">
+<!--<ng-content #name></ng-content>-->
+<ng-container *ngIf="showModal">
+  <app-modal-pet (closeModalEmitter)="toggleModal($event)" class="position-absolute zindex9"></app-modal-pet>
+</ng-container>
+
+<div class="container row pt-4 contentstyle">
     <app-sidebar class="col-4"></app-sidebar>
     <div class="col-8">
-        <app-form-person btnValue="create"></app-form-person>
-        <div class="tableheight">
-          <table class="table text-center tableheight">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Tipo</th>
-                  <th scope="col">Seleccionar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Tutu</td>
-                  <td>Gato</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Pancho</td>
-                  <td>Perro</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Rodolfo</td>
-                  <td>Mono</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Tutu</td>
-                  <td>Gato</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Pancho</td>
-                  <td>Perro</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Rodolfo</td>
-                  <td>Mono</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Tutu</td>
-                  <td>Gato</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Pancho</td>
-                  <td>Perro</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Rodolfo</td>
-                  <td>Mono</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Tutu</td>
-                  <td>Gato</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Pancho</td>
-                  <td>Perro</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Rodolfo</td>
-                  <td>Mono</td>
-                  <td>
-                      <button class="btn bg-warning text-white">Agregar</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-        </div>
+        <app-form-person (showModalEmitter)="toggleModal($event)"></app-form-person>
+        
     </div>
 </div>

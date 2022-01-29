@@ -1,48 +1,65 @@
 <form [formGroup]="formPerson">
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Numero de documento</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='name'>
+        <label for="numberDocument" class="form-label">Numero de documento</label>
+        <input type="number" class="form-control" id="numberDocument" aria-describedby="emailHelp" formControlName='numberDocument'>
     </div>
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='name'>
+        <label for="namePerson" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="namePerson" aria-describedby="emailHelp" formControlName='name'>
     </div>
 
-    <div class="mb-3">
+    <form [formGroup]="formSearchPet" (ngSubmit)="createNewPerson()" class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Buscar Mascota</label>
         <div class="d-flex justify-content-between">
             <div class="d-flex position-relative w-75">
-                <input type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='name'  (keyup)="searchByterm()"> 
-                <div *ngIf="searchProducts" class="tableheight-show position-absolute positionbottom bg-white p-1 w-100">
+                <input autocomplete="off" type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName='term'  (keyup)="searchByterm()"> 
+                <div *ngIf="formSearchPet.value.term?.length >= 1" class="tableheight-show position-absolute positionbottom bg-white p-1 w-100">
                     <div class="list-group">
-                        <button type="button" class="list-group-item list-group-item-action">M1234 - Pancho - Perro</button>
-                        <button type="button" class="list-group-item list-group-item-action">M1244 - Tutu - Gato</button>
-                        <button type="button" class="list-group-item list-group-item-action">M3234 - Francisco - Mono</button>
-                        <button type="button" class="list-group-item list-group-item-action">M6734 - Nojodas - Gato</button>
-                        <button type="button" class="list-group-item list-group-item-action">M9434 - Florentino - Perro</button>
+                        <button 
+                          type="button" 
+                          class="list-group-item list-group-item-action" 
+                          *ngFor="let pet of pets"
+                          (click)="agregatePet(pet)"
+                        >M1234 - {{ pet.name | titlecase }} - {{ pet.type | titlecase }}</button>
+                        <button
+                          *ngIf="pets.length <= 0"
+                          type="button" 
+                          class="list-group-item list-group-item-action">
+                          No se han conseguido resultados para {{ formSearchPet.value.term }}
+                        </button>
                       </div>
                 </div>
             </div>
             <div class="d-flex justify-content-end">
-                <button class="btn bg-success text-white">Agregar</button>
+                <button class="btn bg-success text-white" (click)="viewModal()">Crear Mascota</button>
             </div>
         </div>
-    </div>
-    <!--<div class="mb-3">
-        <div *ngFor="let item of petsNumber ; index as i">
-            <label for="" class="form-label">Name Pet</label>
-            <input type="text" class="form-control" id="" [formControlName]="petsNumber[i].name">
-            <label for="" class="mt-2 form-label">type Pet</label>
-            <input type="text" class="form-control" id="" [formControlName]="petsNumber[i].type">
-            <hr class="my-4">
-        </div>
-    </div>-->
-    <!--<div class="mb-2 d-flex justify-content-between align-items-center">
-        <label for="exampleInputPassword1" class="form-label">Add new pet</label>
-        <button class="btn bg-success text-white" (click)="addNewPet()">+</button>
-    </div>-->
-    <!--<div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-primary" (click)="sendForm()" [disabled]="!formPerson.valid">{{ btnValue | titlecase }}</button>
-        <button type="button" [routerLink]="['/']" class="btn btn-danger">Cancel</button>
-    </div>-->
+        <div class="tableheight mt-4">
+            <table class="table text-center tableheight">
+                <thead>
+                  <tr>
+                    <th scope="col">Matricula</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pet of petsAgregate">
+                    <th scope="row">{{ pet.matricule }}</th>
+                    <td>{{ pet.name}}</td>
+                    <td>{{ pet.type }}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" (click)="removePet(pet._id)">Eliminar</button>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+          </div>
+          <div *ngIf="isErrorFromNumberDOcument" class="text-center">
+            <strong class="text-danger">Error Numero de Documento Ya esta registrado</strong>
+          </div>
+          <button type="submit" class="btn btn-success w-100 mt-3" [disabled]="!formPerson.valid || petsAgregate.length <= 0">Crear Persona</button>
+    </form>
 </form>

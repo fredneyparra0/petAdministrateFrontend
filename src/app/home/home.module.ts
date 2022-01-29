@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { TableItemsComponent } from './components/table-items/table-items.component';
 import { FormPersonComponent } from './components/form-person/form-person.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalPetComponent } from './components/modal-pet/modal-pet.component';
 
 
 
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CreatePersonComponent,
     UpdatePersonComponent,
     TableItemsComponent,
-    FormPersonComponent
+    FormPersonComponent,
+    ModalPetComponent
   ],
   imports: [
     CommonModule,

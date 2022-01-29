@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormPersonService } from '../../services/form-person.service';
+import { ModalPetComponent } from '../modal-pet/modal-pet.component';
 
 @Component({
   selector: 'app-form-person',
@@ -9,23 +10,21 @@ import { FormPersonService } from '../../services/form-person.service';
 })
 export class FormPersonComponent implements OnInit {
 
-  loadingResults:boolean = false;
-  searchProducts: boolean = false;
+  @Output() showModalEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  petsNumber: any[] = [
-    {
-      name: "namePet1",
-      type: "typePet1"
-    }
-  ];
-
-  @Input() btnValue: string = '';
+  searchPets: boolean = false;
+  pets: any[] = [];
+  petsAgregate: any[] = [];
+  isErrorFromNumberDOcument: boolean = false;
 
   formPerson = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    namePet1: new FormControl('', [Validators.required]),
-    typePet1: new FormControl('', [Validators.required])
-  })
+    numberDocument: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required])
+  });
+
+  formSearchPet = new FormGroup({
+    term: new FormControl('', [Validators.required])
+  });
 
   constructor( private formPersonService: FormPersonService ) { }
 
@@ -33,35 +32,53 @@ export class FormPersonComponent implements OnInit {
   }
 
   sendForm () {
-    //this.formPersonService.sendForm(this.btnValue,this.formPerson.value);
     console.log(this.formPerson.controls);
     console.log(this.formPerson.value)
   }
 
-  addNewPet () {
-    const number = this.petsNumber.length + 1;
-    this.formPerson.controls = {
-      ...this.formPerson.controls,
-      [`namePet${number.toString()}`]: new FormControl('hola', [Validators.required]),
-      [`typePet${number.toString()}`]: new FormControl('mundo', [Validators.required])
+  
+  searchByterm () {
+    if (this.formSearchPet.value.term.length <= 0) {
+      this.searchPets = false;
+    }else {
+      this.searchPets = true;
+      this.formPersonService.filterByTerm(this.formSearchPet.value.term).subscribe((response:any) => {
+        this.pets = response.data;
+      });
+      
     }
-    this.petsNumber = [...this.petsNumber, {
-      name: `namePet${number.toString()}`,
-      type: `typePet${number.toString()}` 
-    }];
-    console.log(this.petsNumber);
-    console.log(this.formPerson.controls);
-    //console.log(this.formPerson.value);
+  }
+  
+  viewModal () {
+    this.showModalEmitter.emit(true);
   }
 
-  searchByterm () {
-    if (this.formFilterNft.value.term.length <= 0) {
-      this.searchProducts = false;
-    }else {
-      this.searchProducts = true;
-
+  agregatePet (petAgregateReceived:any) {
+    const isPetOnTheList = this.petsAgregate.some(pet => pet._id === petAgregateReceived._id );
+    if (!isPetOnTheList) {
+      this.petsAgregate.push(petAgregateReceived);
+      this.formSearchPet.reset();
     }
+  }
+  
+  removePet (id:string) {
+    const indexPet = this.petsAgregate.findIndex(pet => pet._id === id);
+    this.petsAgregate.splice(indexPet, 1);
+  }
 
+  createNewPerson () {
+    if (!this.formPerson.invalid) {
+      const idPets = this.petsAgregate.map(pet => pet._id);
+      this.formPersonService.createNewPerson({ ...this.formPerson.value, pets: idPets }).subscribe((response: any) => {
+        if (response.error) {
+          this.isErrorFromNumberDOcument = true;
+        } else {
+          this.isErrorFromNumberDOcument = false;
+          this.formPerson.reset();
+          this.petsAgregate = [];
+        }
+      });
+    }
   }
 
 }
